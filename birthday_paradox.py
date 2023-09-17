@@ -11,9 +11,37 @@ print('\n\nBirthday Paradox\n\n')
 
 #generate desired number of birthdays
 def generateBirthdays(amount):
+    start_date = datetime.date(2000, 1, 1)
     birthdays = []
-    for i in range(amount+1):
-        print(i)
+    for i in range(amount):
+        #generate birthdays
+        randomNumberOfDays = datetime.timedelta(random.randint(0,365))
+        birthday = start_date + randomNumberOfDays
+        #format
+        formattedBirthday = birthday.strftime("%B %d, %Y")
+        #add to list
+        birthdays.append(formattedBirthday)
+    return birthdays
+
+
+#Check for matching birthdays
+def getMatch(birthdays):
+    isMatch = []
+    break_out_flag = False
+    for i in range(len(birthdays)):
+        #set birthday to compare
+        currentBD = birthdays[i]
+        #see if there is a match in rest of birthdays
+        for j in range(i+1,len(birthdays)):
+            compareBD = birthdays[j]
+            #terminate loop if match found
+            if currentBD == compareBD:
+                isMatch.append(currentBD)
+                break_out_flag = True
+                break
+        if break_out_flag:
+            break
+    return isMatch
 
 
 def main():
@@ -25,6 +53,21 @@ def main():
         #check if in range
         elif int(numBirthdays) in range(2,101):
             birthdays = generateBirthdays(int(numBirthdays))
+            print('\nHere are your requested birthdays:\n', birthdays, '\n')
+            match = getMatch(birthdays)
+            #check if a match
+            if len(match) > 0:
+                print('In this simulation, multiple people share a birthday on', match[0], '\n')
+            else:
+                print('In this simulation, no matches were found \n')
+            #Ask for number of tests to run
+            numSimulations = input('How many times would you like to test? (Min:2 Max:10,000)\n')
+            if numSimulations.isdigit() == False:
+                print('\nNo text please.')
+            elif int(numSimulations) in range(2, 10001):
+                print('\nGenerating', numBirthdays, 'random birthdays', numSimulations, 'times \n')
+            else:
+                print('\nOut of range. Please try again')
         #Else
         else:
             print('Out of range. Please try again.')
