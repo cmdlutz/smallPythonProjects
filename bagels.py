@@ -2,6 +2,11 @@ import sys
 import random
 
 
+"""
+    Simple Number Guessing Game.
+"""
+
+
 print('\n\nBagels - A Deductive Logic Game')
 print('Try to Guess the N-Digit Number I am thinking.\n')
 print('''When I Say:        That means:
