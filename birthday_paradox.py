@@ -44,6 +44,22 @@ def getMatch(birthdays):
     return isMatch
 
 
+#Run simulation x number of times and return results as list
+def runSimulation(timesToRun, numBirthdays):
+    posTests = []
+    for i in range(int(timesToRun)):
+        birthdays = generateBirthdays(int(numBirthdays))
+        match = getMatch(birthdays)
+        #check if a match
+        if len(match) > 0:
+            posTests.append(match)
+            #print('In this simulation, multiple people share a birthday on', match[0], '\n')
+        else:
+            #print('In this simulation, no matches were found \n')
+            pass
+    return posTests
+
+
 def main():
     try:
         numBirthdays = input('How many birthdays would you like to generate? (Min:2 Max:100)\n')
@@ -60,17 +76,23 @@ def main():
                 print('In this simulation, multiple people share a birthday on', match[0], '\n')
             else:
                 print('In this simulation, no matches were found \n')
-            #Ask for number of tests to run
-            numSimulations = input('How many times would you like to test? (Min:2 Max:10,000)\n')
-            if numSimulations.isdigit() == False:
-                print('\nNo text please.')
-            elif int(numSimulations) in range(2, 10001):
-                print('\nGenerating', numBirthdays, 'random birthdays', numSimulations, 'times \n')
-            else:
-                print('\nOut of range. Please try again')
         #Else
         else:
-            print('Out of range. Please try again.')
+            print('\nOut of range. Please try again.')
+
+        #Ask for number of tests to run
+        numSimulations = input('How many times would you like to run the test? (Min:2 Max:10,000)\n')
+        if numSimulations.isdigit() == False:
+            print('\nNo text please.')
+        #Run Simulation
+        elif int(numSimulations) in range(2, 10001):
+            print('\nGenerating', numBirthdays, 'random birthdays', numSimulations, 'times \n')
+            simResults = runSimulation(numSimulations, numBirthdays)
+            print('Out of', numSimulations, 'simulations of', numBirthdays, 'people, there was a matching birthday in that group', len(simResults), 
+                  'times. \nThis means that there is a', round(len(simResults)/int(numSimulations)*100, 2), '% chance of having a matching birthday in their group.\n')
+        #Else
+        else:
+            print('\nOut of range. Please try again.')
     except KeyboardInterrupt:
         print('Goodbye')
 
